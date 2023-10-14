@@ -101,7 +101,7 @@ get_response_button = tk.Button(sidebar_frame, text="Get Response", command=lamb
 get_response_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
 # Create a Text widget to display the response under the entry field and auto-wrap text
-
+response_text = tk.StringVar()
 response_display = tk.Text(window, height=10, width=50, background="green", highlightbackground="brown", highlightcolor="brown", highlightthickness=4, foreground="white")
 response_display.grid(row=0, column=1, padx=10, pady=10, sticky="w")
 response_display.config(state="disabled")
