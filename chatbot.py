@@ -1,8 +1,17 @@
-import google.generativeai as palm
-import os
+import vertexai
+from vertexai.language_models import TextGenerationModel
 
-palm.configure(api_key=os.environ['AIzaSyBtk1aaZdajLnEyV0yTGqvy7IaBoNZD88A'])
-
-response = palm.chat(messages=["Hello."])
-print(response.last) #  'Hello! What can I help you with?'
-response.reply("Can you tell me a joke?")
+vertexai.init(project="chattutor-402002", location="us-central1")
+parameters = {
+    "candidate_count": 1,
+    "max_output_tokens": 1024,
+    "temperature": 0.2,
+    "top_p": 0.8,
+    "top_k": 40
+}
+model = TextGenerationModel.from_pretrained("text-bison")
+response = model.predict(
+    """""",
+    **parameters
+)
+print(f"Response from Model: {response.text}")
