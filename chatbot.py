@@ -1,134 +1,79 @@
 import os
-import tkinter as tk
+import tkinter
+import customtkinter
 from vertexai.language_models import TextGenerationModel
+from PIL import Image, ImageTk
 
-# Set the path to your service account key JSON file
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "cred.json"
 
-# Initialize the chatbot model
 model = TextGenerationModel.from_pretrained("text-bison")
 
-# Function to get the chatbot response
-def get_response(grade_level, subject):
-    user_input = input_entry.get()
-    
-    # Define prompts for different grade levels and subjects
-    prompts = {
-        "elementary": "Explain how to solve this {} question on an elementary school level. ".format(subject) + user_input,
-        "middle": "Explain how to solve this {} question on a middle school level. ".format(subject) + user_input,
-        "high": "Explain how to solve this {} question on a high school level. ".format(subject) + user_input,
-    }
-    
-    # Use the appropriate prompt based on the selected grade level
-    prompt = prompts.get(grade_level, user_input)
-    
-    parameters = {
-        "candidate_count": 1,
-        "max_output_tokens": 1024,
-        "temperature": 0.2,
-        "top_p": 0.8,
-        "top_k": 40
-    }
-    response = model.predict(prompt, **parameters)
-    response_text.set(response.text)
-    
-    # Display the response in the Text widget
-    response_display.config(state="normal")
-    response_display.delete(1.0, "end")
-    response_display.insert("end", response.text)
-    response_display.config(state="disabled")
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
 
-# Create the main window
-window = tk.Tk()
-window.title("Chatbot Tutor")
+class App(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
 
-# Set a fixed window size
-window.geometry("1300x550")  # Set your desired size
+        self.title("Minus the Chatbot Tutor")
+        self.geometry(f"{1300}x{550}")
 
-# Disable resizing
-window.resizable(0, 0)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure((2, 3), weight=0)
+        self.grid_rowconfigure((0, 1, 2), weight=1)
 
-# Color codes for subjects
-subject_colors = {"science": "green", "math": "#728FCE", "history": "#966F33", "english": "red"}
+        self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
+        self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
+        self.sidebar_frame.grid_rowconfigure(4, weight=1)
 
-# Create a sidebar frame for subject and grade level selection
-sidebar_frame = tk.Frame(window)
-sidebar_frame.grid(row=0, column=0, padx=10, pady=10, sticky="n")
+        self.subject_label = customtkinter.CTkLabel(self.sidebar_frame, text="Select Subject and Grade Level", font=customtkinter.CTkFont(size=13, weight="bold"))
+        self.subject_label.grid(row=4, column=0, padx=20, pady=(20, 10))
 
-# Create a subject selection frame inside the sidebar
-subject_frame = tk.Frame(sidebar_frame)
-subject_frame.grid(row=0, column=0)
+        self.subject_menu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["Science", "Math", "English", "History"])
+        self.subject_menu.grid(row=5, column=0, padx=20, pady=0)
 
-subject_label = tk.Label(subject_frame, text="Select Subject")
-subject_label.grid(row=0, column=0, sticky="w")
+        self.grade_menu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["Elementary School", "Middle School", "High School"])
+        self.grade_menu.grid(row=6, column=0, padx=20, pady=(10, 20))
 
-# Create radio buttons to select the subject
-subject = tk.StringVar()
-subject.set("science")  # Default to science
+        self.get_response_button = customtkinter.CTkButton(self.sidebar_frame, text = "Get Response", command= self.get_response)
+        self.get_response_button.grid(row=7, column=0, padx=20, pady=(10, 20))
 
-# Add a variable to store the selected subject color
-selected_subject_color = tk.StringVar()
-selected_subject_color.set("green")
+        self.entry = customtkinter.CTkEntry(self, placeholder_text="Enter Question")
+        self.entry.grid(row=3, column=1, columnspan=2, padx=(20, 0), pady=(20, 20), sticky="nsew")
+        
+        self.textbox = customtkinter.CTkTextbox(self, width=250)
+        self.textbox.configure(bg_color="brown", fg_color="green")
+        self.textbox.grid(row=0, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
 
-# Function to set the selected subject color
-def set_selected_subject_color(subject_value):
-    selected_subject_color.set(subject_colors[subject_value])
+        self.image = Image.open("robot.png")  # Load the image with PIL
+        self.photo = ImageTk.PhotoImage(self.image)
+        self.image_label = customtkinter.CTkLabel(self, text = " ", image=self.photo)
+        self.image_label.grid(row=0, column=2, padx=10, pady=10, sticky="e")
 
-# Set a common width for subject radio buttons
-button_width = 15
+    def get_response(self):
+        user_input = self.entry.get()
+        
+        self.textbox.delete("1.0", "end")
 
-science_button = tk.Radiobutton(subject_frame, text="Science", variable=subject, value="science", relief=tk.RAISED, borderwidth=2, padx=10, pady=10, bg=subject_colors["science"], command=lambda: set_selected_subject_color(subject.get()), width=button_width)
-math_button = tk.Radiobutton(subject_frame, text="Math", variable=subject, value="math", relief=tk.RAISED, borderwidth=2, padx=10, pady=10, bg=subject_colors["math"], command=lambda: set_selected_subject_color(subject.get()), width=button_width)
-english_button = tk.Radiobutton(subject_frame, text="English", variable=subject, value="english", relief=tk.RAISED, borderwidth=2, padx=10, pady=10, bg=subject_colors["english"], command=lambda: set_selected_subject_color(subject.get()), width=button_width)
-history_button = tk.Radiobutton(subject_frame, text="History", variable=subject, value="history", relief=tk.RAISED, borderwidth=2, padx=10, pady=10, bg=subject_colors["history"], command=lambda: set_selected_subject_color(subject.get()), width=button_width)
+        prompts = {
+            "Elementary School": "Explain how to solve this {} question on an elementary school level. ".format(self.subject_menu.get()) + user_input,
+            "Middle School": "Explain how to solve this {} question on a middle school level. ".format(self.subject_menu.get()) + user_input,
+            "High School": "Explain how to solve this {} question on a high school level. ".format(self.subject_menu.get()) + user_input,
+        }
+        
+        prompt = prompts.get(self.grade_menu.get(), user_input)
+        
+        parameters = {
+            "candidate_count": 1,
+            "max_output_tokens": 1024,
+            "temperature": 0.2,
+            "top_p": 0.8,
+            "top_k": 40
+        }
+        response = model.predict(prompt, **parameters)
+        self.textbox.insert("1.0",response.text)
+        
 
-science_button.grid(row=1, column=0, sticky="w")
-math_button.grid(row=2, column=0, sticky="w")
-english_button.grid(row=3, column=0, sticky="w")
-history_button.grid(row=4, column=0, sticky="w")
-
-# Create a grade level selection frame inside the sidebar
-grade_level_frame = tk.Frame(sidebar_frame)
-grade_level_frame.grid(row=1, column=0, pady=(20, 0))
-
-grade_level_label = tk.Label(grade_level_frame, text="Select Grade Level")
-grade_level_label.grid(row=0, column=0, sticky="w")
-
-# Create radio buttons to select the grade level
-grade_level = tk.StringVar()
-grade_level.set("middle")  # Default to middle school
-
-# Set a common width for grade level radio buttons
-grade_button_width = 15
-
-elementary_button = tk.Radiobutton(grade_level_frame, text="Elementary School", variable=grade_level, value="elementary", relief=tk.RAISED, borderwidth=2, padx=10, pady=10, width=grade_button_width)
-middle_button = tk.Radiobutton(grade_level_frame, text="Middle School", variable=grade_level, value="middle", relief=tk.RAISED, borderwidth=2, padx=10, pady=10, width=grade_button_width)
-high_button = tk.Radiobutton(grade_level_frame, text="High School", variable=grade_level, value="high", relief=tk.RAISED, borderwidth=2, padx=10, pady=10, width=grade_button_width)
-
-elementary_button.grid(row=1, column=0, sticky="w")
-middle_button.grid(row=2, column=0, sticky="w")
-high_button.grid(row=3, column=0, sticky="w")
-
-# Create an input entry field on the main window
-input_entry = tk.Entry(window, width=40, relief=tk.RAISED, borderwidth=4, bg="white", foreground="black", font=("Helvetica", 16))
-input_entry.grid(row=1, column=1, padx=10, pady=10, sticky="n")
-
-
-
-# Create a button to get the response next to the menus
-get_response_button = tk.Button(sidebar_frame, text="Get Response", command=lambda: get_response(grade_level.get(), subject.get()), relief=tk.RAISED, borderwidth=2, padx=10, pady=10, bg="white")
-get_response_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
-
-# Create a Text widget with Comic Sans MS font to display the response
-response_text = tk.StringVar()
-response_display = tk.Text(window, height=10, width=50, background="green", highlightbackground="brown", highlightcolor="brown", highlightthickness=4, foreground="white", font=("Comic Sans MS", 12))
-response_display.grid(row=0, column=1, padx=10, pady=10, sticky="w")
-response_display.config(state="disabled")
-
-# Add a robot image on the right-hand side of the application
-robot_image = tk.PhotoImage(file="robot.png")  # Adjust the path to your robot image
-robot_label = tk.Label(window, image=robot_image)
-robot_label.grid(row=0, column=2, padx=10, pady=10, sticky="e")
-
-# Start the Tkinter main loop
-window.mainloop()
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
