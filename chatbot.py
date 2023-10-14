@@ -43,7 +43,7 @@ window = tk.Tk()
 window.title("Chatbot Tutor")
 
 # Set a fixed window size
-window.geometry("800x400")  # Set your desired size
+window.geometry("600x400")  # Set your desired size
 
 # Disable resizing
 window.resizable(0, 0)
@@ -94,19 +94,16 @@ high_button.grid(row=3, column=0, sticky="w")
 
 # Create an input entry field on the main window
 input_entry = tk.Entry(window, width=50)
-input_entry.grid(row=0, column=1, padx=10, pady=10, sticky="n")
+input_entry.grid(row=1, column=1, padx=10, pady=10, sticky="n")
 
 # Create a button to get the response next to the menus
 get_response_button = tk.Button(sidebar_frame, text="Get Response", command=lambda: get_response(grade_level.get(), subject.get()))
 get_response_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
-# Create a Text widget to display the response under the entry field
-response_text = tk.StringVar()
-response_label = tk.Label(window, text="Response:")
-response_label.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+# Create a Text widget to display the response under the entry field and auto-wrap text
 
-response_display = tk.Text(window, height=10, width=50)
-response_display.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+response_display = tk.Text(window, height=10, width=50, wrap="word")
+response_display.grid(row=0, column=1, padx=0, pady=10, sticky="w")
 response_display.config(state="disabled")
 
 # Start the Tkinter main loop
