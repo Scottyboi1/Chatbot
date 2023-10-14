@@ -43,7 +43,7 @@ window = tk.Tk()
 window.title("Chatbot Tutor")
 
 # Set a fixed window size
-window.geometry("600x400")  # Set your desired size
+window.geometry("800x400")  # Set your desired size
 
 # Disable resizing
 window.resizable(0, 0)
@@ -102,9 +102,15 @@ get_response_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
 # Create a Text widget to display the response under the entry field and auto-wrap text
 
-response_display = tk.Text(window, height=10, width=50, wrap="word")
-response_display.grid(row=0, column=1, padx=0, pady=10, sticky="w")
+response_display = tk.Text(window, height=10, width=50, background="green", highlightbackground="brown", highlightcolor="brown", highlightthickness=4, foreground="white")
+response_display.grid(row=0, column=1, padx=10, pady=10, sticky="w")
 response_display.config(state="disabled")
+
+# Add a robot image on the right-hand side of the application
+robot_image = tk.PhotoImage(file="robot.png")  # Adjust the path to your robot image
+robot_label = tk.Label(window, image=robot_image)
+robot_label.grid(row=0, column=2, padx=10, pady=10, sticky="e")
+
 
 # Start the Tkinter main loop
 window.mainloop()
