@@ -9,14 +9,14 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "cred.json"
 model = TextGenerationModel.from_pretrained("text-bison")
 
 # Function to get the chatbot response
-def get_response(grade_level):
+def get_response(grade_level, subject):
     user_input = input_entry.get()
     
-    # Define prompts for different grade levels
+    # Define prompts for different grade levels and subjects
     prompts = {
-        "elementary": "Explain how to solve this on an elementary school level. " + user_input,
-        "middle": "Explain how to solve this on a middle school level. " + user_input,
-        "high": "Explain how to solve this on a high school level. " + user_input,
+        "elementary": "Explain how to solve this {} question on an elementary school level. ".format(subject) + user_input,
+        "middle": "Explain how to solve this {} question on a middle school level. ".format(subject) + user_input,
+        "high": "Explain how to solve this {} question on a high school level. ".format(subject) + user_input,
     }
     
     # Use the appropriate prompt based on the selected grade level
@@ -54,8 +54,22 @@ elementary_button.pack()
 middle_button.pack()
 high_button.pack()
 
+# Create radio buttons to select the subject
+subject = tk.StringVar()
+subject.set("science")  # Default to science
+
+science_button = tk.Radiobutton(window, text="Science", variable=subject, value="science")
+math_button = tk.Radiobutton(window, text="Math", variable=subject, value="math")
+english_button = tk.Radiobutton(window, text="English", variable=subject, value="english")
+history_button = tk.Radiobutton(window, text="History", variable=subject, value="history")  # Add History radio button
+
+science_button.pack()
+math_button.pack()
+english_button.pack()
+history_button.pack()  # Pack the History radio button
+
 # Create a button to get the response
-get_response_button = tk.Button(window, text="Get Response", command=lambda: get_response(grade_level.get()))
+get_response_button = tk.Button(window, text="Get Response", command=lambda: get_response(grade_level.get(), subject.get()))
 get_response_button.pack()
 
 # Create a label to display the response
