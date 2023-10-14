@@ -11,7 +11,7 @@ parameters = {
 }
 model = TextGenerationModel.from_pretrained("text-bison")
 response = model.predict(
-    """""",
+    """hello""",
     **parameters
 )
 print(f"Response from Model: {response.text}")
