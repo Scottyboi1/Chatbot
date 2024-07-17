@@ -22,3 +22,5 @@ Note: Do not make your key publicly available
 
 
 UI Using customtkinter and PIL
+
+Make it deliverable
