@@ -18,7 +18,7 @@ Implement google vertex AI
 
 This will download a JSON file containing your credentials.
 
-Note: Do not make your key publicly available
+**Note: Do not make your key publicly available**
 
 
 UI Using customtkinter and PIL
