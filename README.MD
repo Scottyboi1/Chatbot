@@ -46,7 +46,7 @@ pip install google-cloud-vertex-ai
 
 pip install pillow
 
-#Links
+# Links
 
 Youtube Demo: https://www.youtube.com/watch?v=89JM83tV50g&t=1s&ab_channel=ScottDevelops
 
