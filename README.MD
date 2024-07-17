@@ -24,3 +24,16 @@ Note: Do not make your key publicly available
 UI Using customtkinter and PIL
 
 Make it deliverable
+
+
+# Dependencies
+
+pip install os
+
+pip install tk
+
+pip install customtkinter
+
+pip install google-cloud-vertex-ai
+
+pip install pillow
