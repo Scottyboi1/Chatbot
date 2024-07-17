@@ -25,6 +25,14 @@ UI Using customtkinter and PIL
 
 Make it deliverable
 
+1. pip install pyinstaller
+
+2. pyinstaller --name your_app_name --onefile your_script.py
+
+3. Add additional files to the your_app_name.spec file
+
+4. pyinstaller your_app_name.spec
+
 
 # Dependencies
 
