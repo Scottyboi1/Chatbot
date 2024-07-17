@@ -46,6 +46,15 @@ pip install google-cloud-vertex-ai
 
 pip install pillow
 
+# Next Steps
+
+1. Refactoring the executable (there are too many dependencies not being used)
+
+2. Secure API key with third party software or obfuscate it
+
+3. Fix UI coloring contrast
+
+
 # Links
 
 Youtube Demo: https://www.youtube.com/watch?v=89JM83tV50g&t=1s&ab_channel=ScottDevelops
