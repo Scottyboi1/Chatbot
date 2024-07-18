@@ -36,7 +36,7 @@ Make it deliverable
 
 # Dependencies
 
-pip install os
+pip install os (this should already be included in python)
 
 pip install tk
 
