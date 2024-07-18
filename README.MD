@@ -27,11 +27,9 @@ Make it deliverable
 
 1. pip install pyinstaller
 
-2. pyinstaller --name your_app_name --onefile your_script.py
+2. pyinstaller --onefile your_script.py
 
-3. Add additional files to the your_app_name.spec file
-
-4. pyinstaller your_app_name.spec
+3. Move robot image and credentials into dist folder
 
 
 # Dependencies
