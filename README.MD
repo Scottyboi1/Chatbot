@@ -42,7 +42,7 @@ pip install tk
 
 pip install customtkinter
 
-pip install google-cloud-vertex-ai
+pip install google-cloud-aiplatform
 
 pip install pillow
 
