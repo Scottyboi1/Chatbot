@@ -52,7 +52,7 @@ pip install pillow
 
 1. Refactoring the executable (there are too many dependencies not being used)
 
-2. Secure API key with third party software or obfuscate it
+2. Secure API key with third party software or obfuscate it (this make it completely work and being publicly available)
 
 3. Fix UI coloring contrast
 
