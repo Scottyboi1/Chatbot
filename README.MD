@@ -1,14 +1,14 @@
 # README for Minus the Tutor Chatbot
 This is a chatbot powered by google vertex ai that acts like a tutor for grades K-12 and subject Math, Science, English and History.
 
-# To Run
+## To Run
 1. Download the dist folder
 
 2. Paste your Google credentials in the cred.json file
 
 3. Run the executable called chatbot
 
-# How To...
+## How To...
 
 Implement google vertex AI
 
@@ -36,7 +36,7 @@ Make it deliverable
 3. Move robot image and credentials into dist folder
 
 
-# Dependencies
+## Dependencies
 
 pip install os (this should already be included in python)
 
@@ -48,7 +48,7 @@ pip install google-cloud-aiplatform
 
 pip install pillow
 
-# Next Steps
+## Next Steps
 
 1. Refactoring the executable (there are too many dependencies not being used)
 
